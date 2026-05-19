@@ -12,23 +12,23 @@ use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 
 /**
- * Composer plugin, ktorý po inštalácii / aktualizácii balíka
- * synchronizuje tooling konfigurácie do koreňa projektu.
+ * Composer plugin that, after package install/update,
+ * synchronizes tooling configuration into the project root.
  *
- * Filozofia:
- *  - "managed" súbory (phpstan/rector/pint/pest config, git hooks, CI)
- *    sa PREPISUJÚ pri každom update — to je tá globálna aktualizovateľnosť.
- *    Sú označené hlavičkou, nemajú sa ručne editovať v projekte.
- *  - "seed" súbory (.gitignore, .gitattributes, .env.example doplnky)
- *    sa kopírujú LEN ak v projekte ešte neexistujú — projekt si ich
- *    potom vlastní a preset ich už neprepisuje.
+ * Philosophy:
+ *  - "managed" files (phpstan/rector/pint/pest config, git hooks, CI)
+ *    are OVERWRITTEN on every update — this enables global updatability.
+ *    They are marked with a header and should not be edited manually in the project.
+ *  - "seed" files (.gitignore, .gitattributes, .env.example additions)
+ *    are copied ONLY if they do not already exist — the project then owns them
+ *    and the preset no longer updates them.
  *
- * Výsledok: vylepšíš preset → `composer update neue-sk/dev-preset`
- * v ktoromkoľvek projekte → najnovší tooling, bez ručného kopírovania.
+ * Result: improve the preset → `composer update neue-sk/dev-preset`
+ * in any project → latest tooling without manual copying.
  */
 final class PresetPlugin implements PluginInterface, EventSubscriberInterface
 {
-    private const MANAGED_MARKER = '# >>> neue-sk/dev-preset (managed — needratuj ručne, prepíše sa pri update) <<<';
+    private const MANAGED_MARKER = '# >>> neue-sk/dev-preset (managed — do not edit manually, will be overwritten on update) <<<';
 
     private Composer $composer;
 
@@ -68,7 +68,7 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
             return;
         }
 
-        $this->io->write('<info>neue-sk/dev-preset:</info> synchronizujem tooling konfigurácie...');
+        $this->io->write('<info>neue-sk/dev-preset:</info> syncing tooling configuration...');
 
         $managed = [
             'config/pint.json' => 'pint.json',
@@ -94,12 +94,11 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
 
         $this->installHooks($packageRoot, $projectRoot);
 
-        $this->io->write('<info>neue-sk/dev-preset:</info> hotovo. Spusti <comment>composer quality</comment> na overenie.');
+        $this->io->write('<info>neue-sk/dev-preset:</info> done. Use <comment>composer quality</comment> to check.');
     }
 
     private function projectRoot(): string
     {
-        // Koreň projektu = adresár, kde je composer.json ktorý balík ťahá.
         return dirname($this->composer->getConfig()->get('vendor-dir'));
     }
 

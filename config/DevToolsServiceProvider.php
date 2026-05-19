@@ -12,8 +12,6 @@ use Illuminate\Support\ServiceProvider;
  * Centralizes registration and hard environment guards for local-only
  * developer tooling (Debugbar, IDE Helper).
  *
- * Telescope is intentionally NOT registered here — it has its own
- * provider with tenant-aware gating. See telescope.notes.md.
  *
  * Register this provider in bootstrap/providers.php.
  */

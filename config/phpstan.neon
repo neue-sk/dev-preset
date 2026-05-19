@@ -1,14 +1,3 @@
-# PHPStan + Larastan configuration
-# Boilerplate default: level 9 (maximum strictness).
-#
-# RATCHET STRATEGY:
-#   Greenfield projects start at level 9. If you adopt this boilerplate into an
-#   existing codebase, generate a baseline to quarantine pre-existing issues
-#   WITHOUT lowering the global level:
-#       composer stan:baseline
-#   Then progressively shrink phpstan-baseline.neon over time. Never lower
-#   `level` to silence errors — fix them or baseline them.
-
 includes:
     - vendor/larastan/larastan/extension.neon
     # Uncomment the next line once a baseline has been generated:
@@ -37,7 +26,6 @@ parameters:
             - _ide_helper_models.php
             - .phpstorm.meta.php
 
-    # Multi-tenant / Filament friendly settings
     checkModelProperties: true
     checkOctaneCompatibility: true
     checkMissingIterableValueType: true
