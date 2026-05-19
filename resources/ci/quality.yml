@@ -48,8 +48,8 @@ jobs:
       - name: Pint (code style)
         run: vendor/bin/pint --test
 
-      - name: Rector (refactor dry-run)
-        run: vendor/bin/rector process --dry-run --no-progress-bar
+      - name: Rector (refactor)
+        run: vendor/bin/rector process --no-progress-bar
 
       - name: Larastan (static analysis, level 9)
         run: vendor/bin/phpstan analyse --no-progress --memory-limit=2G
