@@ -12,6 +12,10 @@ parameters:
         - database
         - routes
 
+    scanFiles:
+        - _ide_helper_models.php
+        - _ide_helper.php
+
     # Adjust to your modular layout. For app/Modules/{Module}, `app` above
     # already covers it. For packages/, add:
     #   - packages/*/src
@@ -28,17 +32,7 @@ parameters:
 
     checkModelProperties: true
     checkOctaneCompatibility: true
-    checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: true
     treatPhpDocTypesAsCertain: false
-    reportUnmatchedIgnoredErrors: true
-
-    ignoreErrors:
-        # Filament Resources frequently use dynamic forms; refine per-project
-        # rather than globally suppressing. Example pattern (commented):
-        # -
-        #     message: '#Unsafe usage of new static#'
-        #     paths:
-        #         - app/Filament/**
+    reportUnmatchedIgnoredErrors: false
 
     tmpDir: storage/phpstan
