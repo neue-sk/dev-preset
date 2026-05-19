@@ -27,6 +27,10 @@ jobs:
           coverage: pcov
           tools: composer:v2
 
+      - name: Configure Composer auth
+        run: |
+          echo "COMPOSER_AUTH={\"github-oauth\":{\"github.com\":\"${{ secrets.COMPOSER_AUTH_TOKEN }}\"}}" >> $GITHUB_ENV    
+
       - name: Cache Composer
         uses: actions/cache@v4
         with:
@@ -38,9 +42,7 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Prepare environment
-        run: |
-          cp .env.example .env
-          php artisan key:generate
+        run: cp .env.testing .env
 
       - name: Generate IDE helper model mixins (Larastan L9 needs these)
         run: composer ide-helper
