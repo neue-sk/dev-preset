@@ -18,7 +18,7 @@ parameters:
 
     excludePaths:
         analyse:
-            - app/Console/Kernel.php
+            - app/Console/Kernel.php (?)
             - bootstrap/cache
             - storage
         analyseAndScan:
