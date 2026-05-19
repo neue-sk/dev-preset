@@ -1,0 +1,31 @@
+{
+    "name": "neue-sk/dev-preset",
+    "description": "Centrálny tooling preset pre Laravel 13 projekty — aplikuje konfigurácie pre Pint, Larastan, Rector, Pest, git hooks, security. Globálne aktualizovateľný cez composer.",
+    "type": "composer-plugin",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.3",
+        "composer-plugin-api": "^2.3"
+    },
+    "require-dev": {
+        "composer/composer": "^2.7"
+    },
+    "_tooling_comment": "ZÁMERNE tu NIE SÚ tooling balíky (pint/larastan/rector/pest/debugbar/...). Tento balík je len Composer plugin ktorý aplikuje konfigurácie. Konkrétne verzie nástrojov inštaluje bootstrap.sh cez `composer require` BEZ verzií, aby Composer zvolil najnovšie kompatibilné s daným Laravelom. Pinnutie verzií tu spôsobilo konflikt s Laravel 13 (starý barryvdh/laravel-debugbar ^3.13 nepodporuje L13; nový balík je fruitcake/laravel-debugbar ^4).",
+    "autoload": {
+        "psr-4": {
+            "NeueSk\\DevPreset\\": "src/"
+        }
+    },
+    "extra": {
+        "class": "NeueSk\\DevPreset\\PresetPlugin"
+    },
+    "config": {
+        "allow-plugins": {
+            "neue-sk/dev-preset": true,
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

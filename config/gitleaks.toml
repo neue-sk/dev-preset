@@ -1,0 +1,48 @@
+# Gitleaks configuration — secret scanning for the repository.
+# Run in CI on every push/PR (see ci.yml) and optionally as a local
+# pre-commit step. Extends the upstream default ruleset and adds
+# Laravel / multi-tenant specific rules.
+
+title = "Boilerplate Gitleaks Config"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "laravel-app-key"
+description = "Laravel APP_KEY"
+regex = '''APP_KEY\s*=\s*base64:[A-Za-z0-9+/=]{40,}'''
+tags = ["laravel", "secret"]
+
+[[rules]]
+id = "laravel-db-password"
+description = "Populated DB_PASSWORD in committed env-like file"
+regex = '''DB_PASSWORD\s*=\s*(?!$|\s|null|password|secret)\S+'''
+tags = ["laravel", "database"]
+
+[[rules]]
+id = "generic-private-key"
+description = "Private key block"
+regex = '''-----BEGIN (RSA |OPENSSH |EC |DSA |PGP )?PRIVATE KEY-----'''
+tags = ["key"]
+
+[[rules]]
+id = "tenant-connection-secret"
+description = "Hard-coded per-tenant DB credentials"
+regex = '''tenant_db_password['"]?\s*[:=]\s*['"][^'"]{4,}['"]'''
+tags = ["multitenant", "secret"]
+
+[allowlist]
+description = "Global allowlist"
+paths = [
+    '''\.env\.example$''',
+    '''.*\.md$''',
+    '''tests/.*''',
+    '''database/factories/.*''',
+    '''database/seeders/.*''',
+]
+regexes = [
+    '''APP_KEY=\s*$''',
+    '''password=password''',
+    '''secret=secret''',
+]

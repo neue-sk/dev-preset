@@ -1,0 +1,75 @@
+name: Quality Gate
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history for gitleaks
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, pdo, pdo_mysql, bcmath, intl, redis
+          coverage: pcov
+          tools: composer:v2
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Generate IDE helper model mixins (Larastan L9 needs these)
+        run: composer ide-helper
+
+      # --- Gate steps mirror scripts/pre-commit exactly ---------------
+      - name: Pint (code style)
+        run: vendor/bin/pint --test
+
+      - name: Rector (refactor dry-run)
+        run: vendor/bin/rector process --dry-run --no-progress-bar
+
+      - name: Larastan (static analysis, level 9)
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=2G
+
+      - name: Pest (tests + coverage gate)
+        run: vendor/bin/pest --coverage --min=80 --compact
+
+  security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITLEAKS_CONFIG: .gitleaks.toml
+
+      - name: Composer audit (known CVEs)
+        run: composer audit --no-interaction || true

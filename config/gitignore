@@ -1,0 +1,61 @@
+# --- Laravel core ------------------------------------------------------
+/.phpunit.cache
+/bootstrap/cache/*.php
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+.phpunit.result.cache
+
+# --- Environment & secrets (CRITICAL) ----------------------------------
+.env
+.env.backup
+.env.production
+.env.*.local
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+auth.json
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+
+# Multi-tenant: per-tenant uploaded data must never be committed
+/storage/tenants
+/storage/app/tenants
+
+# --- Tooling caches ----------------------------------------------------
+/storage/phpstan
+/.php-cs-fixer.cache
+.rector.cache
+/storage/debugbar
+/storage/clockwork
+
+# --- IDE / OS ----------------------------------------------------------
+/.idea
+/.vscode
+/.fleet
+/.nova
+/.zed
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# --- Build / logs ------------------------------------------------------
+/storage/logs/*.log
+npm-debug.log
+yarn-error.log
+/.sail
+docker-compose.override.yml
+
+# Homestead
+Homestead.json
+Homestead.yaml

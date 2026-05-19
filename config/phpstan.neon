@@ -1,0 +1,56 @@
+# PHPStan + Larastan configuration
+# Boilerplate default: level 9 (maximum strictness).
+#
+# RATCHET STRATEGY:
+#   Greenfield projects start at level 9. If you adopt this boilerplate into an
+#   existing codebase, generate a baseline to quarantine pre-existing issues
+#   WITHOUT lowering the global level:
+#       composer stan:baseline
+#   Then progressively shrink phpstan-baseline.neon over time. Never lower
+#   `level` to silence errors — fix them or baseline them.
+
+includes:
+    - vendor/larastan/larastan/extension.neon
+    # Uncomment the next line once a baseline has been generated:
+    # - phpstan-baseline.neon
+
+parameters:
+    level: 9
+
+    paths:
+        - app
+        - config
+        - database
+        - routes
+
+    # Adjust to your modular layout. For app/Modules/{Module}, `app` above
+    # already covers it. For packages/, add:
+    #   - packages/*/src
+
+    excludePaths:
+        analyse:
+            - app/Console/Kernel.php
+            - bootstrap/cache
+            - storage
+        analyseAndScan:
+            - _ide_helper.php
+            - _ide_helper_models.php
+            - .phpstorm.meta.php
+
+    # Multi-tenant / Filament friendly settings
+    checkModelProperties: true
+    checkOctaneCompatibility: true
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: true
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: true
+
+    ignoreErrors:
+        # Filament Resources frequently use dynamic forms; refine per-project
+        # rather than globally suppressing. Example pattern (commented):
+        # -
+        #     message: '#Unsafe usage of new static#'
+        #     paths:
+        #         - app/Filament/**
+
+    tmpDir: storage/phpstan
