@@ -14,7 +14,7 @@ parameters:
 
     scanFiles:
         - _ide_helper_models.php
-        - _ide_helper.php
+        - _ide_helper.php (?)
 
     # Adjust to your modular layout. For app/Modules/{Module}, `app` above
     # already covers it. For packages/, add:
