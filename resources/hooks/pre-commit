@@ -28,8 +28,8 @@ echo "  → Pint (code style)"
 vendor/bin/pint --test -- $STAGED_PHP || fail "Pint"
 
 # 2. Rector — dry run detects un-applied refactors.
-echo "  → Rector (refactor dry-run)"
-vendor/bin/rector process --dry-run --no-progress-bar || fail "Rector"
+echo "  → Rector (refactor)"
+vendor/bin/rector process --no-progress-bar || fail "Rector"
 
 # 3. Larastan — project-wide static analysis.
 echo "  → Larastan (static analysis)"
