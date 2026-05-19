@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # full history for gitleaks
+          fetch-depth: 0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -45,7 +45,6 @@ jobs:
       - name: Generate IDE helper model mixins (Larastan L9 needs these)
         run: composer ide-helper
 
-      # --- Gate steps mirror scripts/pre-commit exactly ---------------
       - name: Pint (code style)
         run: vendor/bin/pint --test
 

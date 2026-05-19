@@ -23,7 +23,6 @@ return RectorConfig::configure()
         '_ide_helper.php',
         '_ide_helper_models.php',
         '.phpstorm.meta.php',
-        // Rector + Pint can disagree on this; let Pint own import handling.
         AddOverrideAttributeToOverriddenMethodsRector::class,
     ])
     ->withPhpSets(php83: true)

@@ -10,7 +10,6 @@
     "require-dev": {
         "composer/composer": "^2.7"
     },
-    "_tooling_comment": "ZÁMERNE tu NIE SÚ tooling balíky (pint/larastan/rector/pest/debugbar/...). Tento balík je len Composer plugin ktorý aplikuje konfigurácie. Konkrétne verzie nástrojov inštaluje bootstrap.sh cez `composer require` BEZ verzií, aby Composer zvolil najnovšie kompatibilné s daným Laravelom. Pinnutie verzií tu spôsobilo konflikt s Laravel 13 (starý barryvdh/laravel-debugbar ^3.13 nepodporuje L13; nový balík je fruitcake/laravel-debugbar ^4).",
     "autoload": {
         "psr-4": {
             "NeueSk\\DevPreset\\": "src/"

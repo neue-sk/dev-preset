@@ -25,7 +25,7 @@
         "no_unused_imports": true,
         "ordered_imports": {
             "sort_algorithm": "alpha",
-            "imports": ["class", "function", "const"]
+            "imports_order": ["class", "function", "const"]
         },
         "ordered_class_elements": {
             "order": [

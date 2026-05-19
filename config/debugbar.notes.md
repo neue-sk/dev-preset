@@ -1,4 +1,3 @@
-# POZOR: balík je teraz fruitcake/laravel-debugbar (v4+), nie barryvdh. Namespace: Fruitcake\LaravelDebugbar.
 # Laravel Debugbar — boilerplate guidance
 #
 # Debugbar renders an HTML toolbar. In a HEADLESS API it has limited value

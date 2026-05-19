@@ -64,14 +64,12 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
         $projectRoot = $this->projectRoot();
         $packageRoot = __DIR__ . '/..';
 
-        // Beží len v reálnom projekte, nie pri vývoji samotného presetu.
         if (realpath($projectRoot) === realpath($packageRoot)) {
             return;
         }
 
         $this->io->write('<info>neue-sk/dev-preset:</info> synchronizujem tooling konfigurácie...');
 
-        // Managed súbory — vždy prepíš (zdroj pravdy je balík).
         $managed = [
             'config/pint.json' => 'pint.json',
             'config/phpstan.neon' => 'phpstan.neon',
@@ -85,7 +83,6 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
             $this->copyManaged("{$packageRoot}/{$src}", "{$projectRoot}/{$dest}");
         }
 
-        // Seed súbory — kopíruj len ak chýbajú (projekt si ich vlastní).
         $seed = [
             'config/gitignore' => '.gitignore',
             'config/gitattributes' => '.gitattributes',
@@ -95,7 +92,6 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
             $this->copySeed("{$packageRoot}/{$src}", "{$projectRoot}/{$dest}");
         }
 
-        // Git hooky — nainštaluj/aktualizuj a sprav spustiteľnými.
         $this->installHooks($packageRoot, $projectRoot);
 
         $this->io->write('<info>neue-sk/dev-preset:</info> hotovo. Spusti <comment>composer quality</comment> na overenie.');
@@ -123,7 +119,7 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
     private function copySeed(string $src, string $dest): void
     {
         if (is_file($dest)) {
-            return; // už existuje — nevlastníme ho.
+            return;
         }
 
         if (! is_file($src)) {
@@ -140,7 +136,7 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
         $gitDir = "{$projectRoot}/.git";
 
         if (! is_dir($gitDir)) {
-            return; // nie je git repo (napr. CI checkout bez .git) — preskoč.
+            return;
         }
 
         $hooksDest = "{$gitDir}/hooks";
