@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -36,7 +37,7 @@ arch('no debugging leftovers')
 arch('models are well-formed')
     ->expect('App\Models')
     ->toBeClasses()
-    ->toExtend('Illuminate\Database\Eloquent\Model');
+    ->toExtend('Model');
 
 arch('data objects extend Spatie Data')
     ->expect('App\Data')
