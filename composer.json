@@ -16,7 +16,7 @@
         }
     },
     "extra": {
-        "class": "NeueHq\\DevPreset\\PresetPlugin"
+        "class": "Neuehq\\DevPreset\\PresetPlugin"
     },
     "config": {
         "allow-plugins": {
