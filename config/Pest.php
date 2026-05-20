@@ -53,11 +53,3 @@ arch('actions are invokable or single-purpose')
 arch('no facades inside Domain modules')
     ->expect('App\Modules')
     ->not->toUse('Illuminate\Support\Facades');
-
-/*
-|--------------------------------------------------------------------------
-| Global Helpers / Expectations
-|--------------------------------------------------------------------------
-*/
-
-expect()->extend('toBeOne', fn () => $this->toBe(1));
