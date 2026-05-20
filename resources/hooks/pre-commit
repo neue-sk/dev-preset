@@ -23,13 +23,18 @@ fi
 
 fail() { echo -e "${RED}✗ $1 failed. Commit aborted.${NC}"; exit 1; }
 
+# 0. IDE helpers — regenerate model meta so static analysis sees current schema.
+#    Output is gitignored; this only updates local _ide_helper_models.php.
+echo "  → IDE helpers (model meta)"
+php artisan ide-helper:models --nowrite --quiet || fail "IDE helper generation"
+
 # 1. Pint — style check on staged files only (no auto-fix in hook).
 echo "  → Pint (code style)"
 vendor/bin/pint --test -- $STAGED_PHP || fail "Pint"
 
 # 2. Rector — dry run detects un-applied refactors.
 echo "  → Rector (refactor)"
-vendor/bin/rector process --no-progress-bar || fail "Rector"
+vendor/bin/rector process --dry-run --no-progress-bar || fail "Rector"
 
 # 3. Larastan — project-wide static analysis.
 echo "  → Larastan (static analysis)"
