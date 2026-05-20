@@ -1,11 +1,10 @@
 name: Code Review
 
 on:
-  push:
-    branches-ignore:
-      - main
-      - stage
   pull_request:
+    types:
+      - opened
+      - synchronize
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
