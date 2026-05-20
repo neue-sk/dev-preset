@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NeueSk\DevPreset;
+namespace Neuehq\DevPreset;
 
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;
@@ -23,12 +23,12 @@ use Composer\Script\ScriptEvents;
  *    are copied ONLY if they do not already exist — the project then owns them
  *    and the preset no longer updates them.
  *
- * Result: improve the preset → `composer update neue-sk/dev-preset`
+ * Result: improve the preset → `composer update neuehq/dev-preset`
  * in any project → latest tooling without manual copying.
  */
 final class PresetPlugin implements PluginInterface, EventSubscriberInterface
 {
-    private const MANAGED_MARKER = '# >>> neue-sk/dev-preset (managed — do not edit manually, will be overwritten on update) <<<';
+    private const MANAGED_MARKER = '# >>> neuehq/dev-preset (managed — do not edit manually, will be overwritten on update) <<<';
 
     private Composer $composer;
 
@@ -68,7 +68,7 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
             return;
         }
 
-        $this->io->write('<info>neue-sk/dev-preset:</info> syncing tooling configuration...');
+        $this->io->write('<info>neuehq/dev-preset:</info> syncing tooling configuration...');
 
         $managed = [
             'config/pint.json' => 'pint.json',
@@ -94,7 +94,7 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
 
         $this->installHooks($packageRoot, $projectRoot);
 
-        $this->io->write('<info>neue-sk/dev-preset:</info> done. Use <comment>composer review</comment> to check.');
+        $this->io->write('<info>neuehq/dev-preset:</info> done. Use <comment>composer review</comment> to check.');
     }
 
     private function projectRoot(): string

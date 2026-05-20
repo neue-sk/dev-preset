@@ -1,5 +1,5 @@
 {
-    "name": "neue-sk/dev-preset",
+    "name": "neuehq/dev-preset",
     "description": "Centrálny tooling preset pre Laravel 13 projekty — aplikuje konfigurácie pre Pint, Larastan, Rector, Pest, git hooks, security. Globálne aktualizovateľný cez composer.",
     "type": "composer-plugin",
     "license": "proprietary",
@@ -12,15 +12,15 @@
     },
     "autoload": {
         "psr-4": {
-            "NeueSk\\DevPreset\\": "src/"
+            "Neuehq\\DevPreset\\": "src/"
         }
     },
     "extra": {
-        "class": "NeueSk\\DevPreset\\PresetPlugin"
+        "class": "NeueHq\\DevPreset\\PresetPlugin"
     },
     "config": {
         "allow-plugins": {
-            "neue-sk/dev-preset": true,
+            "neuehq/dev-preset": true,
             "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true
         }
