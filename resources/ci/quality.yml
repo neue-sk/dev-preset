@@ -26,6 +26,10 @@ jobs:
           owner: neue-sk
           repositories: dev-preset
 
+      - name: Configure git to use App token for github.com
+        run: |
+          git config --global url."https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
