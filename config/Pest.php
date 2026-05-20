@@ -37,7 +37,7 @@ arch('no debugging leftovers')
 arch('models are well-formed')
     ->expect('App\Models')
     ->toBeClasses()
-    ->toExtend('Model');
+    ->toExtend(Model::class);
 
 arch('data objects extend Spatie Data')
     ->expect('App\Data')
