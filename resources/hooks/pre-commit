@@ -26,7 +26,7 @@ fail() { echo -e "${RED}✗ $1 failed. Commit aborted.${NC}"; exit 1; }
 # 0. IDE helpers — regenerate model meta so static analysis sees current schema.
 #    Output is gitignored; this only updates local _ide_helper_models.php.
 echo "  → IDE helpers (model meta)"
-php artisan ide-helper:models --nowrite --quiet || fail "IDE helper generation"
+php artisan ide-helper:models --write-mixin --no-interaction --quiet || fail "IDE helper generation"
 
 # 1. Pint — style check on staged files only (no auto-fix in hook).
 echo "  → Pint (code style)"
