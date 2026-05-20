@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Pre-commit hook — boilerplate quality gate.
+# Pre-commit hook — boilerplate code review.
 # Mirrors CI exactly so "works locally" means "passes CI".
 #
 # Installed by: composer run hooks:install   (see scripts/install-hooks.sh)
@@ -10,7 +10,7 @@ set -euo pipefail
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
 
-echo -e "${YELLOW}▶ Running pre-commit quality gate...${NC}"
+echo -e "${YELLOW}▶ Running pre-commit code review...${NC}"
 
 # Only run against staged PHP files for speed; fall back to full suite
 # for analysis tools that need project-wide context.

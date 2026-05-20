@@ -76,7 +76,7 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
             'config/rector.php' => 'rector.php',
             'config/Pest.php' => 'tests/Pest.php',
             'config/gitleaks.toml' => '.gitleaks.toml',
-            'resources/ci/quality.yml' => '.github/workflows/quality.yml',
+            'resources/ci/code-review.yml' => '.github/workflows/code-review.yml',
         ];
 
         foreach ($managed as $src => $dest) {
@@ -94,7 +94,7 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
 
         $this->installHooks($packageRoot, $projectRoot);
 
-        $this->io->write('<info>neue-sk/dev-preset:</info> done. Use <comment>composer quality</comment> to check.');
+        $this->io->write('<info>neue-sk/dev-preset:</info> done. Use <comment>composer review</comment> to check.');
     }
 
     private function projectRoot(): string
