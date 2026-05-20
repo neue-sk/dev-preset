@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
+use Rector\CodingStyle\Rector\Use_\SeparateMultiUseImportsRector;
 use Rector\Config\RectorConfig;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 use RectorLaravel\Set\LaravelLevelSetList;
@@ -23,6 +25,8 @@ return RectorConfig::configure()
         '_ide_helper_models.php',
         '.phpstorm.meta.php',
         AddOverrideAttributeToOverriddenMethodsRector::class,
+        EncapsedStringsToSprintfRector::class,
+        SeparateMultiUseImportsRector::class,
     ])
     ->withPhpSets(php83: true)
     ->withPreparedSets(
