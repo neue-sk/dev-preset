@@ -74,6 +74,10 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
