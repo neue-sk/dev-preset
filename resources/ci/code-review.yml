@@ -2,7 +2,9 @@ name: Code Review
 
 on:
   push:
-    branches: [ main, develop ]
+    branches-ignore:
+      - main
+      - stage
   pull_request:
 
 concurrency:
