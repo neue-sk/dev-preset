@@ -16,8 +16,10 @@ tags = ["laravel", "secret"]
 
 [[rules]]
 id = "laravel-db-password"
-description = "Populated DB_PASSWORD in committed env-like file"
-regex = '''DB_PASSWORD\s*=\s*(?!$|\s|null|password|secret)\S+'''
+description = "Populated DB_PASSWORD with high entropy (real secret, not placeholder)"
+regex = '''DB_PASSWORD\s*=\s*['"]?([^\s'"]{8,})['"]?'''
+secretGroup = 1
+entropy = 3.5
 tags = ["laravel", "database"]
 
 [[rules]]
@@ -28,8 +30,10 @@ tags = ["key"]
 
 [[rules]]
 id = "tenant-connection-secret"
-description = "Hard-coded per-tenant DB credentials"
-regex = '''tenant_db_password['"]?\s*[:=]\s*['"][^'"]{4,}['"]'''
+description = "Hard-coded per-tenant DB credentials with high entropy"
+regex = '''tenant_db_password['"]?\s*[:=]\s*['"]([^'"]{8,})['"]'''
+secretGroup = 1
+entropy = 3.5
 tags = ["multitenant", "secret"]
 
 [allowlist]

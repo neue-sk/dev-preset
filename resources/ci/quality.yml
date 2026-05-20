@@ -2,7 +2,7 @@ name: Quality Gate
 
 on:
   push:
-    branches: [main, develop]
+    branches: [ main, develop ]
   pull_request:
 
 concurrency:
@@ -17,18 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate token for private deps
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ vars.DEPS_APP_ID }}
-          private-key: ${{ secrets.DEPS_APP_PRIVATE_KEY }}
-          owner: neue-sk
-          repositories: dev-preset
-
-      - name: Configure git to use App token for github.com
+      - name: Configure git auth for private Composer deps
+        env:
+          GH_TOKEN: ${{ secrets.DEV_PRESET_TOKEN }}
         run: |
-          git config --global url."https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -47,13 +40,19 @@ jobs:
 
       - name: Install dependencies
         env:
-          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ steps.app-token.outputs.token }}"}}'
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.DEV_PRESET_TOKEN }}"}}'
         run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Prepare environment
         run: |
           cp .env.example .env
           php artisan key:generate
+
+      - name: Prepare SQLite database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+          php artisan migrate --force --no-interaction
 
       - name: Generate IDE helper model mixins (Larastan L9 needs these)
         run: composer ide-helper
