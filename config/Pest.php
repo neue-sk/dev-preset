@@ -14,7 +14,6 @@ use Tests\TestCase;
 | Feature only — Unit tests should not touch the database.
 */
 
-pest()->extend(TestCase::class)->in('Feature');
 pest()->extend(TestCase::class)->use(RefreshDatabase::class)->in('Feature');
 pest()->extend(TestCase::class)->in('Unit');
 
