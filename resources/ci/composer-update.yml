@@ -20,14 +20,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-        with:
-          token: ${{ secrets.DEV_PRESET_TOKEN }}
-
-      - name: Configure git auth for private Composer deps
-        env:
-          GH_TOKEN: ${{ secrets.DEV_PRESET_TOKEN }}
-        run: |
-          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -37,13 +29,9 @@ jobs:
           tools: composer:v2
 
       - name: Install dependencies
-        env:
-          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.DEV_PRESET_TOKEN }}"}}'
         run: composer install --no-interaction --no-progress
 
       - name: Run composer update
-        env:
-          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.DEV_PRESET_TOKEN }}"}}'
         run: composer update --with-all-dependencies --no-progress
 
       - name: Remove accidental workflow changes
@@ -66,7 +54,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.DEV_PRESET_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore(deps): composer update"
           title: "chore(deps): weekly composer update"
           body: |

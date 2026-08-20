@@ -77,6 +77,7 @@ final class PresetPlugin implements PluginInterface, EventSubscriberInterface
             'config/Pest.php' => 'tests/Pest.php',
             'config/gitleaks.toml' => '.gitleaks.toml',
             'resources/ci/code-review.yml' => '.github/workflows/code-review.yml',
+            'resources/ci/composer-update.yml' => '.github/workflows/composer-update.yml',
         ];
 
         foreach ($managed as $src => $dest) {

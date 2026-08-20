@@ -5,6 +5,9 @@ on:
     types:
       - opened
       - synchronize
+  push:
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,12 +23,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-
-      - name: Configure git auth for private Composer deps
-        env:
-          GH_TOKEN: ${{ secrets.DEV_PRESET_TOKEN }}
-        run: |
-          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -43,8 +40,6 @@ jobs:
           restore-keys: composer-
 
       - name: Install dependencies
-        env:
-          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.DEV_PRESET_TOKEN }}"}}'
         run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Prepare environment
@@ -62,7 +57,9 @@ jobs:
         run: composer ide-helper
 
       - name: Pint (code style)
-        run: vendor/bin/pint --test
+        run: |
+          vendor/bin/pint
+          git diff --exit-code
 
       - name: Rector (refactor)
         run: vendor/bin/rector process --no-progress-bar
